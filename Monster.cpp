@@ -4,13 +4,11 @@
 
 void Monster::update(std::vector<std::unique_ptr<Object>>& objects)
 {
-	float attackPercent{ 0.75f };
+	float chanceToAttack{ .75 };
 	if (auto fearEffect{ condition.find(Object::StatusEffect::afraid) };
 		fearEffect != condition.end() && fearEffect->second)
-	{
-		attackPercent = 0.5f;
-	}
-	std::bernoulli_distribution willAttack(attackPercent);
+		chanceToAttack = .5;
+	std::bernoulli_distribution willAttack(chanceToAttack);
 	if (willAttack(Object::engine))
 	{
 
@@ -45,12 +43,12 @@ Monster::Monster(const std::unique_ptr<Object>& player)
 		break;
 	case Object::Type::orc:
 		strengthVariance = level * 2.0;
-		healthVariance = (long long)level * level*.25 ;
+		healthVariance = (long long)level * level * .25;
 		ACVariance = level;
 		break;
 	case Object::Type::sprite:
 		strengthVariance = level * 1.75;
-		healthVariance = level*.75;
+		healthVariance = level * .75;
 		ACVariance = 0;
 		break;
 	case Object::Type::dragon:
@@ -79,7 +77,7 @@ int Monster::attack() const
 
 void Monster::defend(int damage)
 {
-	
+
 	damageTaken(damage, AC);
 
 }
@@ -93,11 +91,10 @@ void Monster::print(std::ostream& o) const
 		Object::print(o);
 		if (getHealth() > 0)
 			o << " h:" << getHealth();
-		if (auto fearEffect{ condition.find(Object::StatusEffect::afraid) };
-			fearEffect != condition.end() && fearEffect->second)
+		if (condition.find(Object::StatusEffect::afraid) != condition.end())
 		{
 			std::cout << " (afraid!)";
 		}
 	}
-	
+
 }

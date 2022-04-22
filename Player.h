@@ -3,9 +3,12 @@
 
 #include <memory>
 #include <set>
+#include <map>
+
 #include "Object.h"
 #include "Item.h"
 #include "iStrategy.h"
+
 class Player :
 	public Object
 {
@@ -21,13 +24,10 @@ public:
 	void levelUp();
 	void update(std::vector<std::unique_ptr<Object>>& objects) override;
 
-	
-
 	int attack() const override;
 	void defend(int damage) override;
-	void print(std::ostream& o) const override;	
+	void print(std::ostream& o) const override;
 	bool cast(int cost);
-	
 
 
 private:

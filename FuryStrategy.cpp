@@ -1,32 +1,28 @@
-
+#include <algorithm>
+#include <random>
 #include <iostream>
-
 #include "FuryStrategy.h"
+#include "Object.h"
 #include "Player.h"
+#include "Monster.h"
 
-FuryStrategy::FuryStrategy(Player* owner)
-	:iStrategy(owner, 'f', "(f)ury")
-{ }
+using namespace std;
+FuryStrategy::FuryStrategy(Player* owner) :iStrategy(owner, 'u', "f(u)ry")
+{
 
+}
 void FuryStrategy::execute(std::vector<std::unique_ptr<Object>>& objects)
 {
 	std::cout << "Your fury blows through the front lines of the enemies!" << std::endl;
-
-	for (int i{ std::min(2, (int)objects.size() - 1) }; i > 0; i--)
+	for (int i = min(2, (int)objects.size() - 1); i > 0; i--)
 	{
-		objects.at(i)->defend(owner->attack());
-		objects.at(i)->defend(owner->attack());
-		// Bonus for Ba2:
-		// % chance it will scare the monster based on the number of monsters
-		// The more monsters the less it scares them:
-		std::bernoulli_distribution ranScare((1.0 - ((int)objects.size() - 1.0) / (int)objects.size()));
-		if (ranScare(Object::engine))
-			objects.at(i)->scare();
-		//objects.at(i)->scare();
+		objects[i]->defend(owner->attack());
+		objects[i]->defend(owner->attack());
+		objects[i]->scare();
 	}
-	std::cout << "The fury has left you weakend, your strength drops " << owner->getStrength() << " --> ";
+	cout << "The fury has left you weakend, your strength drops " << owner->getStrength() << " --> ";
 	owner->weaken(1);
-	std::cout << owner->getStrength() << std::endl;
+	cout << owner->getStrength() << endl;
 	system("PAUSE");
 	system("CLS");
 }

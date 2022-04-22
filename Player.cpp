@@ -1,8 +1,15 @@
 #include <random>
+#include <memory>
 #include <iostream>
+
 #include "Player.h"
 #include "Monster.h"
-#include "StrategyList.h"
+#include "iStrategy.h"
+#include "BasicAttackStrategy.h"
+#include "FearStrategy.h"
+#include "FireballStrategy.h"
+#include "FuryStrategy.h"
+#include "HealStrategy.h"
 
 
 Player::Player(const Player& src) noexcept :
@@ -59,8 +66,6 @@ Player::Player() :Object(Object::Type::player, 0, 1, 0)
 	levelUp();
 }
 
-
-
 void Player::levelUp()
 {
 	level++;
@@ -81,9 +86,10 @@ void Player::levelUp()
 	case 5:
 		abilities.emplace(std::make_unique<FearStrategy>(this));
 		break;
+	default:
+		break;
 	}
-
-	std::normal_distribution<double> randomHealth(20.0 + (long long)level * 5, 5.0);
+	std::normal_distribution<double> randomHealth(20.0 + level * 5, 5.0);
 	health += std::max(1, (int)randomHealth(engine));
 
 	std::normal_distribution<double> randomStrength(3.0 + level, 1.0);
@@ -93,7 +99,7 @@ void Player::levelUp()
 	//grab new item.
 	std::uniform_int_distribution<int> randomItem(0, (int)Item::Type::numTypes - 1);
 	std::normal_distribution<double> randomBonus((double)level, (double)level / 2);
-	std::unique_ptr<Item> found{ std::make_unique<Item>((Item::Type)randomItem(engine), std::max(1, (int)randomBonus(engine)))} ;
+	std::unique_ptr<Item> found{ std::make_unique<Item>((Item::Type)randomItem(engine), std::max(1, (int)randomBonus(engine))) };
 
 	std::cout << "You found a " << *found << "!!!!" << std::endl;
 	if (
@@ -114,15 +120,14 @@ void Player::levelUp()
 
 void Player::update(std::vector<std::unique_ptr<Object>>& objects)
 {
-	
+
 	if (objects.size() == 1)
 	{
 		levelUp();
 		return;
 	}
 	std::cout << "What do you do? ";
-
-	for (const auto& ability : abilities)
+	for (auto& ability : abilities)
 	{
 		std::cout << ability->actionName;
 		std::cout << " ";
@@ -137,7 +142,7 @@ void Player::update(std::vector<std::unique_ptr<Object>>& objects)
 			ability->execute(objects);
 		}
 	}
-	
+
 }
 
 
@@ -168,6 +173,7 @@ void Player::defend(int damage)
 }
 
 
+
 void Player::print(std::ostream& o) const
 {
 	if (nameOnly) Object::print(o);
@@ -182,7 +188,7 @@ void Player::print(std::ostream& o) const
 
 bool Player::cast(int cost)
 {
-	if (cost < SP)
+	if (SP > cost)
 	{
 		SP -= cost;
 		return true;
@@ -192,14 +198,15 @@ bool Player::cast(int cost)
 		std::cout << "Not enough SP!!!" << std::endl;
 		return false;
 	}
+
 }
 
 std::ostream& operator<<(std::ostream& o, const std::map<Item::Type, std::unique_ptr<Item>>& src)
 {
-	for(const auto& itemIter : src )
-		{
-			o << "  " << *itemIter.second << std::endl;
-		};
+	for (const auto& itemIter : src)
+	{
+		o << "  " << *itemIter.second << std::endl;
+	};
 	return o;
 }
 

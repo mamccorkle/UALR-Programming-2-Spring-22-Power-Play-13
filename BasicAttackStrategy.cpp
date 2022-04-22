@@ -1,34 +1,44 @@
-
+#include <string>
 #include <iostream>
-
+#include <random>
 #include "BasicAttackStrategy.h"
+#include "Object.h"
 #include "Player.h"
+#include "Monster.h"
 
-BasicAttackStrategy::BasicAttackStrategy(Player* owner)
-	:iStrategy(owner, 'a', "(a)ttack")
-{ }
-
+using namespace std;
+BasicAttackStrategy::BasicAttackStrategy(Player* owner) :iStrategy(owner, 'a', "(a)ttack")
+{
+}
 void BasicAttackStrategy::execute(std::vector<std::unique_ptr<Object>>& objects)
 {
-	int monsterNum{ 1 };
+	int monsterNum{ 0 };
 	if (objects.size() > 2)
 	{
-		std::cout << "Which Monster? (";
+		cout << "Which Monster? (";
 		for (unsigned int i = 1; i < objects.size(); i++)
 		{
-			std::cout << i;
-			if (i < objects.size() - 1) std::cout << ", ";
+			cout << i;
+			if (i < objects.size() - 1) cout << ", ";
 		}
-		std::cout << "): ";
+		cout << "): ";
+
 		std::cin >> monsterNum;
 	}
-	if (monsterNum >= 1 && monsterNum < objects.size())
+
+	if (monsterNum < 1)
 	{
-		Object::nameOnly = true;
-		system("CLS");
-		std::cout << "**************FIGHT*****************" << std::endl;
-		std::cout << *owner << " Attacks ";
-		std::cout << *objects.at(monsterNum) << "!!\n";
-		objects[monsterNum]->defend(owner->attack());
+		monsterNum = 1;
 	}
+	else if (monsterNum >= objects.size())
+	{
+		monsterNum = (int)objects.size() - 1;
+	}
+	Object::nameOnly = true;
+	system("CLS");
+	cout << "**************FIGHT*****************" << endl;
+	cout << *owner << " Attacks ";
+	cout << *objects.at(monsterNum) << "!!\n";
+
+	objects[monsterNum]->defend(owner->attack());
 }

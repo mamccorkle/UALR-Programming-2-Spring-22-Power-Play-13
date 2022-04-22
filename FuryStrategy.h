@@ -1,13 +1,12 @@
-#pragma once
-
+#ifndef FURY_STRATEGY_H
+#define FURY_STRATEGY_H
 #include "iStrategy.h"
-
 class Player;
-class FuryStrategy : public iStrategy
+class FuryStrategy :public iStrategy
 {
 public:
 	FuryStrategy(Player* owner);
-
-	void execute(std::vector <std::unique_ptr<Object>>& objects) override;
+	void execute(std::vector<std::unique_ptr<Object>>& objects) override;
 
 };
+#endif // !FURY_STRATEGY_H

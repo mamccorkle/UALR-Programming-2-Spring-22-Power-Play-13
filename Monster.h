@@ -10,16 +10,15 @@ class Monster :
 public:
 	Monster() {};
 	Monster(const std::unique_ptr<Object>& player);
-	
 
 	void update(std::vector<std::unique_ptr<Object>>& objects) override;
-	
+
 	int attack() const override;
 	void defend(int damage) override;
 	void print(std::ostream& o) const override;
 private:
 	int AC{ 0 };
-	
+
 };
 
 

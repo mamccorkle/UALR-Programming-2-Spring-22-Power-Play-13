@@ -76,8 +76,6 @@ int main()
 
 }
 
-
-
 void displayBattle(const std::vector<std::unique_ptr<Object>>& objects)
 {
 	Object::nameOnly = false;

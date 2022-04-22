@@ -10,6 +10,23 @@ Object::Object(Type name, int strength, int health, int level) : name{ name }, s
 }
 
 
+void Object::heal(int amount)
+{
+	std::cout << *this << " is healed by " << amount << "hp!" << std::endl;
+	health += amount;
+}
+
+void Object::weaken(int amount)
+{
+	strength -= amount;
+}
+
+void Object::scare()
+{
+	condition.insert_or_assign(Object::StatusEffect::afraid, true);
+}
+
+
 void Object::print(std::ostream& o) const
 {
 	switch (getName())
@@ -34,24 +51,9 @@ void Object::print(std::ostream& o) const
 }
 
 
-bool Object::isDead()
+bool Object::isDead() const
 {
 	return health <= 0;
-}
-
-void Object::heal(int amount)
-{
-	health += amount;
-}
-
-void Object::weaken(int amount)
-{
-	strength -= amount;
-}
-
-void Object::scare()
-{
-	condition.insert_or_assign(Object::StatusEffect::afraid, true);
 }
 
 Object::Type Object::getName() const
