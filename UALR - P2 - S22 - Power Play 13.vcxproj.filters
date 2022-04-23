@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Strategies">
       <UniqueIdentifier>{2f8c2e90-1d3f-4a14-9ad1-3c6b16d13d55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Factory">
+      <UniqueIdentifier>{249d7ec8-18b7-433b-8326-33843035ad08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Factory\Library">
+      <UniqueIdentifier>{1b63b25b-fbf5-4699-b695-52137507ea86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UALR - P2 - S22 - Power Play 13.cpp">
@@ -52,7 +58,7 @@
       <Filter>Source Files\Strategies</Filter>
     </ClCompile>
     <ClCompile Include="FearStrategy.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Strategies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +93,22 @@
       <Filter>Header Files\Strategies</Filter>
     </ClInclude>
     <ClInclude Include="FearStrategy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary.h">
+      <Filter>Header Files\Factory\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFactory.h">
+      <Filter>Header Files\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterFactory.h">
+      <Filter>Header Files\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Header Files\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGameLibrary.h">
+      <Filter>Header Files\Factory\Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

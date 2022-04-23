@@ -153,16 +153,21 @@
     <ClCompile Include="UALR - P2 - S22 - Power Play 13.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseGameLibrary.h" />
     <ClInclude Include="BasicAttackStrategy.h" />
     <ClInclude Include="FearStrategy.h" />
     <ClInclude Include="FireballStrategy.h" />
     <ClInclude Include="FuryStrategy.h" />
+    <ClInclude Include="GameLibrary.h" />
     <ClInclude Include="HealStrategy.h" />
     <ClInclude Include="iStrategy.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterFactory.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerFactory.h" />
     <ClInclude Include="StrategyList.h" />
   </ItemGroup>
   <ItemGroup>

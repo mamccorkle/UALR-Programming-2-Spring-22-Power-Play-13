@@ -24,16 +24,29 @@
 #include "Player.h"
 #include "Monster.h"
 
+#include "GameLibrary.h"
+#include "BaseGameLibrary.h"
+
 void createMonsters(std::vector<std::unique_ptr<Object>>& objects);
 
 void displayBattle(const std::vector<std::unique_ptr<Object>>& objects);
 void bringOutYourDead(std::vector<std::unique_ptr<Object>>& objects);
 
+// Create the library of factories:
+std::unique_ptr<GameLibrary> baseLibrary{ std::make_unique<BaseGameLibrary>() };
 
 int main()
 {
 	std::vector<std::unique_ptr<Object>> objects;
-	objects.push_back(std::make_unique<Player>());
+
+	//// Old Way:
+	//objects.push_back(std::make_unique<Player>());
+
+	// New Way:
+	// Search through the baseLibrary for a playerFactory:
+	if (auto found{ baseLibrary->inventory.find("player")}; found != baseLibrary->inventory.end())
+		objects.push_back(found->second->create());
+
 	while (objects.front()->getName() == Object::Type::player)
 	{
 		createMonsters(objects);
@@ -98,7 +111,13 @@ void createMonsters(std::vector<std::unique_ptr<Object>>& objects)
 	objects.resize(std::max(2, (int)randomNumMonsters(Object::engine)));
 	std::generate(objects.begin() + 1, objects.end(), [&]()
 		{
-			return std::make_unique<Monster>(objects.front());
+			//// Old Way:
+			//return std::make_unique<Monster>(objects.front());
+
+			// New Way:
+			if (auto found{ baseLibrary->inventory.find("monster") }; found != baseLibrary->inventory.end())
+				return std::make_unique<Monster>(objects.front());
+
 		});
 }
 
